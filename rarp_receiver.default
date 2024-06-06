@@ -1,6 +1,2 @@
 # Default network interface for RARP receiver
 INTERFACE=ens192
-
-# Set to -v for verbose output, leave empty for normal output
-#VERBOSE_FLAG=-v
-
