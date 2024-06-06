@@ -1,0 +1,12 @@
+[Unit]
+Description=RARP Receiver Service
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/default/rarp_receiver
+ExecStart=/usr/bin/rarp_receiver -i ${INTERFACE} ${VERBOSE_FLAG}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
