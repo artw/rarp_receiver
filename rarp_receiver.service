@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 EnvironmentFile=/etc/default/rarp_receiver
-ExecStart=/usr/bin/rarp_receiver -i ${INTERFACE} ${VERBOSE_FLAG}
+ExecStart=/usr/bin/rarp_receiver $INTERFACE
 Restart=always
 RestartSec=10
 
