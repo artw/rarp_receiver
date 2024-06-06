@@ -12,6 +12,8 @@ BuildRequires:  golang
 %description
 A simple program that registers a receiver for RARP packets and prints the packet contents.
 
+%global debug_package %{nil}
+
 %prep
 %setup -q
 
