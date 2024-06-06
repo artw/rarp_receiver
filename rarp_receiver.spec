@@ -19,7 +19,7 @@ A simple program that registers a receiver for RARP packets and prints the packe
 export GOOS=linux
 export GOARCH=amd64
 export CGO_ENABLED=0
-go build -o rarp_receiver rarp_receiver.go
+go build -ldflags="-linkmode external -extldflags '-Wl,--build-id'" -o rarp_receiver rarp_receiver.go
 
 %install
 install -d %{buildroot}%{_bindir}
