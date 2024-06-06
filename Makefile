@@ -12,12 +12,13 @@ all: build
 build:
 	# Create output directory if it does not exist
 	mkdir -p $(INPUT_DIR) $(OUTPUT_DIR)
-	git archive --format=tar.gz --prefix=$(ARCHIVE_NAME) -o $(INPUT_DIR)/$(ARCHIVE_NAME).tar.gz HEAD
+	git archive --format=tar.gz --prefix=$(ARCHIVE_NAME)/ -o $(INPUT_DIR)/$(ARCHIVE_NAME).tar.gz HEAD
+	cp rarp_receiver.spec $(INPUT_DIR)
 	# Build the Docker image
 	cd $(TEMP_DIR)
 	docker build -t $(DOCKER_IMAGE) .
 	# Run the Docker container to build the RPM, with mounts to export the RPM
-	docker run --name $(CONTAINER_NAME) --rm -v $(SOURCE_DIR):/root/rpmbuild/SOURCES -v $(OUTPUT_DIR):/root/rpmbuild/RPMS/x86_64 $(DOCKER_IMAGE)
+	docker run --name $(CONTAINER_NAME) --rm -v $(INPUT_DIR):/root/rpmbuild/SOURCES -v $(OUTPUT_DIR):/root/rpmbuild/RPMS/x86_64 $(DOCKER_IMAGE) /root/rpmbuild/SOURCES/rarp_receiver.spec
 
 clean:
 	# Clean the output directory

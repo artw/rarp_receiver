@@ -1,7 +1,7 @@
 FROM rockylinux:8
 
 # Install required packages
-RUN dnf install -y golang rpm-build && rpmdev-setuptree
+RUN dnf install -y golang rpm-build && mkdir -p rpmbuild/SOURCES
 
 # Set up build environment
 WORKDIR /root
@@ -10,7 +10,8 @@ WORKDIR /root
 RUN 
 
 # Build the RPM package
-# RUN rpmbuild -ba rarp_receiver.spec
+ENTRYPOINT ["rpmbuild","-ba"]
+# RUN rpmbuild -ba myrpm.spec
 
 # The resulting RPM will be in /root/rpmbuild/RPMS/x86_64/
 
