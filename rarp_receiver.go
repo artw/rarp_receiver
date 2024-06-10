@@ -23,12 +23,14 @@ func main() {
 		log.Fatalf("Error getting interface: %v", err)
 	}
 
+	// create a raw socket for RARP ethertype
 	fd, err := syscall.Socket(syscall.AF_PACKET, syscall.SOCK_RAW, int(htons(syscall.ETH_P_RARP)))
 	if err != nil {
 		log.Fatalf("Error creating socket: %v", err)
 	}
 	defer syscall.Close(fd)
 
+	// bind it to the interface
 	addr := syscall.SockaddrLinklayer{
 		Ifindex:  iface.Index,
 		Protocol: htons(syscall.ETH_P_RARP),
@@ -38,6 +40,7 @@ func main() {
 		log.Fatalf("Error binding socket: %v", err)
 	}
 
+	// no jumbos expected
 	buffer := make([]byte, 1500)
 
 	for {
@@ -46,6 +49,7 @@ func main() {
 			log.Fatalf("Error reading packet: %v", err)
 		}
 
+		// print packet contents as HEX
 		if *verbose {
 			fmt.Printf("Received packet:\n")
 			fmt.Printf("%x\n", buffer[:n])
@@ -53,6 +57,7 @@ func main() {
 	}
 }
 
+// host byte order to network byte order. Little Endian to Big Endian
 func htons(i uint16) uint16 {
 	return (i<<8)&0xff00 | i>>8
 }
